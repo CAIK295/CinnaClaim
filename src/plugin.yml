@@ -1,0 +1,41 @@
+name: CinnaClaim
+main: swe.kbk.williamsson.CinnaClaim.CinnaClaim
+version: 1.2
+
+commands:
+   claim:
+      description: Claims the region the player stands in unless it has a owner.
+      usage: /claim
+      permission: cinnaclaim.claim
+   unclaim:
+      description: Unclaims the region the player stands in, if he is owner of that region.
+      usage: /unclaim
+      permission: cinnaclaim.unclaim
+   friend:
+      description: Add or removes a player as a friend, a member, in the region.
+      usage: /friend <add OR remove> <player>
+      permission: cinnaclaim.friend
+   cc:
+      description: Sets or gets the size of a plot
+      usage: /cc setsize <size>, /cc getsize
+      permission: cinnaclaim.cc
+      
+permissions:
+    cinnaclaim.claim:
+      description: Allows to claim a region
+      default: true
+    cinnaclaim.unclaim:
+      description: Allows to unclaim a region
+      default: true
+    cinnaclaim.friend.add:
+      description: Allows to add friends, eg members, to the region
+      default: true
+    cinnaclaim.friend.remove:
+      description: Allows to remove friends, eg members, from the region
+      default: true
+    cinnaclaim.cc.setsize:
+      description: Sets the size, and makes the region claimable.
+      default: op
+    cinnaclaim.cc.getsize:
+      description: Gets the size of the region
+      default: op
