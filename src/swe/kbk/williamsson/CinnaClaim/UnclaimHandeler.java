@@ -1,7 +1,6 @@
 package swe.kbk.williamsson.CinnaClaim;
 
 import java.util.List;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +11,7 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.databases.ProtectionDatabaseException;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class UnclaimHandeler implements Listener, CommandExecutor {
 	// instance of the main plugin class
@@ -65,6 +65,7 @@ public class UnclaimHandeler implements Listener, CommandExecutor {
 						
 						List<String> regions = plugin.getOwnedRegions(regionsPlayerStandsIn, player, rm);
 						
+						removeAllFriends(regions, rm);
 						removeOwner(player, rm, regions);
 						for(String region : regions){
 							plugin.getDbc().declaimRegion(player.getName(), region);
@@ -93,7 +94,14 @@ public class UnclaimHandeler implements Listener, CommandExecutor {
 		
 	}
 	
+	public void removeAllFriends(List<String> regionsList, RegionManager rm){
 	
+		for(String region : regionsList){
+			ProtectedRegion protectedRegion = rm.getRegion(region);
+			protectedRegion.setMembers(new DefaultDomain());
+		}
+		
+	}
 	
 	
 	

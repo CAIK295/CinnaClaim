@@ -134,8 +134,27 @@ public class SettingsManager implements CommandExecutor, Listener {
 				}
 			}
 			
-	
 			
 		return true;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

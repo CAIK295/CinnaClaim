@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.databases.ProtectionDatabaseException;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
@@ -70,7 +71,7 @@ public class FriendHandeler implements CommandExecutor {
 			}
 			
 			for(String region : regions){
-				addFriend(friend, rm.getRegion(region));
+				addFriend(friend, rm.getRegion(region), rm);
 				player.sendMessage("Player " + friend + " has been added to the members of your region(s)!");
 				return true;
 			}
@@ -90,7 +91,7 @@ public class FriendHandeler implements CommandExecutor {
 			}
 			
 			for(String region : regions){
-				removeFriend(friend, rm.getRegion(region));
+				removeFriend(friend, rm.getRegion(region), rm);
 				player.sendMessage("Player " + friend + " has been removed from the members of your region(s)!");
 				return true;
 			}
@@ -102,20 +103,32 @@ public class FriendHandeler implements CommandExecutor {
 	
 	
 	//Obviously, adds a friend (eg a member) to the region
-	private void addFriend(String player, ProtectedRegion region){
+	private void addFriend(String player, ProtectedRegion region, RegionManager rm){
 		
 		DefaultDomain dom = region.getMembers();
 		dom.addPlayer(player);
 		region.setMembers(dom);
+		try {
+			rm.save();
+		} catch (ProtectionDatabaseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
 	//Obviously, removes a friend (eg a member) from the region
-	private void removeFriend(String player, ProtectedRegion region){
+	private void removeFriend(String player, ProtectedRegion region, RegionManager rm){
 		
 		DefaultDomain dom = region.getMembers();
 		dom.removePlayer(player);
 		region.setMembers(dom);
+		try {
+			rm.save();
+		} catch (ProtectionDatabaseException e) {
+			e.printStackTrace();
+		}
 	}
+	
+	
 
 }

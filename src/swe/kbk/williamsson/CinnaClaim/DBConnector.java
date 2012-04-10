@@ -89,12 +89,11 @@ public class DBConnector {
 		}
 		return 0;
 	}
-	
 	public boolean isRegionClaimable(String region){
 		try {
 			int claimable = 0;
-				PreparedStatement prepSwitch = dbhndl.prepareStatement("SELECT is_claimable FROM plots WHERE plot_id = '" + scrub(region) + "'");
-				prepSwitch.setString(1, region);
+				PreparedStatement prepSwitch = dbhndl.prepareStatement("SELECT is_claimable FROM plots WHERE plot_id = ?");
+				prepSwitch.setString(1, scrub(region));
 				prepSwitch.execute();
 				ResultSet rs = prepSwitch.getResultSet();
 				while(rs.next()) {

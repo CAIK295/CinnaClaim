@@ -1,5 +1,6 @@
 package swe.kbk.williamsson.CinnaClaim;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -22,17 +23,18 @@ public class CinnaClaim extends JavaPlugin {
 	public SettingsManager sm;
 	public RegionManager rm;
 	public CCPlayerListener pl;
+	public FriendHandeler fh;
 	
 	public void onEnable() {
 		//Instantiera variables, or whatever we're doing
 		ClaimHandeler claimListener = new ClaimHandeler(this);
 		UnclaimHandeler unclaimListener = new UnclaimHandeler(this);
-		FriendHandeler fh = new FriendHandeler(this);
+		fh = new FriendHandeler(this);
 		dbc = new DBConnector(this);
 		sm = new SettingsManager(this);
 		pl = new CCPlayerListener(this);
 		
-		 wg = getWorldGuardPlugin();
+		wg = getWorldGuardPlugin();
 		
 		 //Log that we're up and running!
 		PluginDescriptionFile pdFile = this.getDescription();
@@ -52,6 +54,12 @@ public class CinnaClaim extends JavaPlugin {
 	
 	public void onDisable() {
 		log.info("[" + getDescription().getName() + "] Has been disabled!");
+		
+		try {
+			dbc.dbhndl.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
